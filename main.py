@@ -244,7 +244,6 @@ class ScoreScreen(Screen):
 		with open(self.file,"a+") as read_scores:
 			line = read_scores.readline()
 			if "[" in line:
-				print "["
 				self.scores = eval(line)
 			else:
 				print "n"
@@ -261,16 +260,12 @@ class ScoreScreen(Screen):
 
 	def modify_high_scores(self, mode, name, score):
 		self.append_score(mode, name, score)
-		#print "Array after append: " + str(self.scores)
 		beginning = self.scores.index(mode) + 1
-		#print str(mode) + " beginning: " + str(beginning)
 		end = 0
 
 		if mode == "adding":
-			#print "Beginning: " + str(beginning)
 			index = self.scores.index(mode) + 1
 			while index < len(self.scores):
-				#print "Adding: self.scores[%d] = %s" %(index, self.scores[index])
 				if self.scores[index] == "substracting" or self.scores[index] == "multiplying":
 					end = index
 					break
@@ -278,12 +273,10 @@ class ScoreScreen(Screen):
 					self.add.append(self.scores[index])
 				index += 1
 				end = index
-			#print "End: " + str(end)
 			self.sort_section(self.add, beginning, end)
 		if mode == "substracting":
 			index = self.scores.index(mode) + 1
 			while index < len(self.scores):
-				#print "Subst: self.scores[%d] = %s" %(index, self.scores[index])
 				if self.scores[index] == "adding" or self.scores[index] == "multiplying":
 					end = index
 					break
@@ -291,13 +284,11 @@ class ScoreScreen(Screen):
 					self.subst.append(self.scores[index])
 				index += 1
 				end = index
-			#print "End: "+ str(end)
 			self.sort_section(self.subst, beginning, end)
 
 		if mode == "multiplying":
 			index = self.scores.index(mode) + 1
 			while index < len(self.scores):
-				#print "Mult: self.scores[%d] = %s" %(index, self.scores[index])
 				if self.scores[index] == "adding" or self.scores[index] == "substracting":
 					end = index
 					break
@@ -305,7 +296,6 @@ class ScoreScreen(Screen):
 					self.mult.append(self.scores[index])
 				index += 1
 				end = index
-			#print "End: " + str(end)
 			self.sort_section(self.mult, beginning, end)
 
 		self.add = []
@@ -387,7 +377,6 @@ class ScoreScreen(Screen):
 				else:
 					labels.append(self.scores[index])
 			except:
-					print "In except"
 					labels.append([0, "N/A"])
 			index += 1
 			count += 1
@@ -424,7 +413,6 @@ class ScoreScreen(Screen):
 				else:
 					labels.append(self.scores[index])
 			except:
-					print "In except"
 					labels.append([0, "N/A"])
 			index += 1
 			count += 1
@@ -439,7 +427,6 @@ class ScoreScreen(Screen):
 		self.score_label4_score.text = str(labels[3][0])
 		self.score_label5_name.text = "5. %-5s" %(labels[4][1])
 		self.score_label5_score.text = str(labels[4][0])
-
 
 	def empty_score_labels(self, labels):
 		for count in range(5):
