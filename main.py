@@ -304,7 +304,6 @@ class ScoreScreen(Screen):
 		print self.scores
 		self.write_scores()
 
-
 	#['adding', [1, 'bob'], [0,'ko'], 'substracting', [2,'kevin'], [32, 'hey']]
 	def sort_section(self, sect, beg, end):
 		sect.sort()
@@ -312,7 +311,6 @@ class ScoreScreen(Screen):
 		if len(sect) > 5:
 			del sect[5:]
 		self.scores[beg:end] = sect
-
 
 	def write_scores(self):
 		with open(self.file, "w+") as write_scores:
@@ -431,8 +429,6 @@ class ScoreScreen(Screen):
 	def empty_score_labels(self, labels):
 		for count in range(5):
 			labels.append([0, "N/A"])
-
-
 
 class MathRoot(ScreenManager):
 	final_score = NumericProperty()
