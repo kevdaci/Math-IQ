@@ -1,0 +1,403 @@
+#: import NoTransition kivy.uix.screenmanager.NoTransition
+#: import SlideTransition kivy.uix.screenmanager.SlideTransition
+#: import randint random.randint
+
+MathRoot:
+	id: math_root
+	adding_screen: adding_screen
+	substracting_screen: substracting_screen
+	multiplying_screen: multiplying_screen
+	final_screen: final_screen
+	score_screen: score_screen
+	transition: NoTransition()
+	StartScreen:
+		id:  start_screen
+		name: "start"
+		manager: math_root
+	MenuScreen:
+		id: menu_screen
+		name: "menu"
+		manager: math_root
+	AddingScreen:
+		id:  adding_screen
+		name: "adding"
+		manager: math_root
+	SubstractingScreen:
+		id: substracting_screen
+		name: "substracting"
+		manager: math_root
+	MultiplyingScreen:
+		id: multiplying_screen
+		name: "multiplying"
+		manager: math_root
+	IncorrectScreen:
+		id:  incorrect_screen
+		name: "incorrect"
+		manager: math_root
+	ScoreScreen:
+		id: score_screen
+		name: "score"
+		manager: math_root
+	FinalScreen:
+		id: final_screen
+		name: "final"
+		manager: math_root
+
+<MathRoot>:
+	canvas.before:
+		Color:
+			rgba: 1,1,1,1
+		Rectangle:
+			pos: root.pos
+			size: root.size
+
+<StartScreen>:
+	button: b
+	FloatLayout:
+		Label:
+			size_hint_y: 0.45
+			text: "Math IQ"
+			color: 0,0,0,1
+			font_size: "45sp"
+			pos_hint: {"center_y": 0.75}
+			font_name: "fonts/Bitter_Regular.otf" #"BebasNeue_Regular.otf"
+			#font_kerning: False
+		Button:
+			id: b
+			text: "Start"
+			font_name: "fonts/3ds_Light.otf"
+			font_size: "20sp"
+			size: "90dp", "60dp"
+			size_hint: None, None
+			pos_hint: {'center_x': 0.5, 'center_y':0.5}
+			background_normal: ""
+			background_down: ""
+			background_color: [39.0/255, 232.0/255, 52.0/255, 1] if self.state == "down" else [71.0/255, 255/255, 89.0/255, 1]
+			line_height: 1.8
+			border: [0,0,0,0]
+			#padding: ["100dp","45dp"]
+			on_release: app.root.current = 'menu'
+		Button:
+			text: "Scores"
+			background_normal: ""
+			background_down: ""
+			background_color: [36.0/255, 110.0/255, 208.0/255, 1] if self.state == "down" else [40.0/255, 130.0/255, 247.0/255, 1]
+			size: "90dp", "50dp"
+			size_hint: None, None
+			pos_hint: {"center_x": 0.5, "center_y": 0.30}
+			font_name: "fonts/3ds_Light.otf"
+			font_size: "20sp"
+			on_press: print self.background_color
+			on_release: app.root.current = root.manager.to_high_scores()
+
+<MenuScreen>:
+	BoxLayout:
+		orientation: 'vertical'
+		Label:
+			text: "Test your IQ!"
+			font_size: "30sp"
+			color: 0,0,0,1
+			size_hint_y: 0.20
+		BoxLayout:
+			orientation: 'vertical'
+			MenuOptionButton:
+				text: "+"
+				on_release: app.root.current = "adding"
+			MenuOptionButton:
+				text: "-"
+				on_release: app.root.current = "substracting"
+			MenuOptionButton:
+				text: "x"
+				on_release: app.root.current = "multiplying"
+
+<MenuOptionButton@Button>:
+	size_hint_y: 0.8/3
+	font_name: "fonts/3ds_Light.otf"
+	font_size: "30sp"
+	background_normal: ''
+	background_down: ''
+	background_color: [36.0/255, 110.0/255, 208.0/255, 1] if self.state == "down" else [40.0/255, 130.0/255, 247.0/255, 1]
+
+<AddingScreen>:
+	answer: ans
+	label1: l1
+	label2: l2
+	s: s
+	FloatLayout:
+		ScoreLabel:
+			id: s
+			text: ''
+		OperationLabel:
+			id: l1
+			text: root.first_label()
+			pos_hint:{"center_x": 0.5, "center_y": 0.75}
+		OperationLabel:
+			id: l2
+			text: root.second_label()
+			pos_hint:{"center_x": 0.5, "center_y": 0.55}
+		Label:
+			canvas:
+				Color:
+	            	rgba: 0, 0, 0, 1
+	            Line:
+	            	width: 2
+	            	points: [self.center_x - (self.height/2), self.center_y,self.center_x + (self.height/2), self.center_y]
+	        pos_hint:{"center_x": 0.5, "center_y": 0.45}
+		AnswerInput:
+			id: ans
+			pos_hint: {"center_x": 0.5, "center_y": 0.25}
+			on_text_validate:
+				app.root.current = root.manager.check_answer("adding")
+
+<SubstractingScreen>:
+	answer: ans
+	label1: l1
+	label2: l2
+	s: s
+	FloatLayout:
+		ScoreLabel:
+			id: s
+			text: ''
+		OperationLabel:
+			id: l1
+			text: root.first_label()
+			pos_hint:{"center_x": 0.5, "center_y": 0.75}
+		OperationLabel:
+			id: l2
+			text: root.second_label()
+			pos_hint:{"center_x": 0.5, "center_y": 0.55}
+		Label:
+			canvas:
+				Color:
+	            	rgba: 0, 0, 0, 1
+	            Line:
+	            	width: 2
+	            	points: [self.center_x - (self.height/2), self.center_y,self.center_x + (self.height/2), self.center_y]
+	        pos_hint:{"center_x": 0.5, "center_y": 0.45}
+		AnswerInput:
+			id: ans
+			pos_hint: {"center_x": 0.5, "center_y": 0.25}
+			on_text_validate:
+				app.root.current = root.manager.check_answer("substracting")
+
+<MultiplyingScreen>:
+	answer: ans
+	label1: l1
+	label2: l2
+	s: s
+	FloatLayout:
+		ScoreLabel:
+			id: s
+			text: ''
+		OperationLabel:
+			id: l1
+			text: root.first_label()
+			pos_hint:{"center_x": 0.5, "center_y": 0.75}
+		OperationLabel:
+			id: l2
+			text: root.second_label()
+			pos_hint:{"center_x": 0.5, "center_y": 0.55}
+		Label:
+			canvas:
+				Color:
+	            	rgba: 0, 0, 0, 1
+	            Line:
+	            	width: 2
+	            	points: [self.center_x - (self.height/2), self.center_y,self.center_x + (self.height/2), self.center_y]
+	        pos_hint:{"center_x": 0.5, "center_y": 0.45}
+		AnswerInput:
+			id: ans
+			pos_hint: {"center_x": 0.5, "center_y": 0.25}
+			on_text_validate:
+				app.root.current = root.manager.check_answer("multiplying")
+
+
+<OperationLabel@Label>:
+	color: 0,0,0,1
+	font_size: "55sp"
+
+<ScoreLabel@Label>:
+	color: 0,0,0,1
+	font_size: "15sp"
+	pos_hint: {"center_x": 0.825, "y": 0.475}
+
+<AnswerInput@TextInput>:
+	size: "170dp", "90dp"
+	size_hint: None, None
+	font_size: "55sp"
+	multiline: False
+	padding_x: 79,0
+	input_type: "number"
+
+<IncorrectScreen>:
+	c: c
+	Button:
+		id: c
+		text: "Wrong!"
+		color: 1,1,1,1
+		background_normal: ''
+		background_color: 1,60.0/255,60.0/255,1
+		background_down: ''
+		font_size: "30sp"
+		on_release:
+			app.root.transition = SlideTransition(direction = "up")
+			app.root.current = "final"
+
+<FinalScreen>:
+	FloatLayout:
+		Label:
+			text: "Final Score"
+			size_hint_y: 0.20
+			color: 0,0,0,1
+			font_size: "30sp"
+			pos_hint:{"center_x": 0.5, "center_y": 0.9}
+		Label:
+			text: str(root.manager.final_score)
+			size_hint_y: 0.5
+			color: 0,0,0,1
+			font_size: "45sp"
+			pos_hint:{"center_x": 0.5, "center_y": 0.60}
+		Button:
+			text: "Exit"
+			size: "90dp", "55dp"
+			size_hint: None, None
+			pos_hint:{"center_x": 0.75, "center_y": 0.2}
+			background_normal: ''
+			background_down: ''
+			background_color: [36.0/255, 110.0/255, 208.0/255, 1] if self.state == "down" else [40.0/255, 130.0/255, 247.0/255, 1]
+			on_release:
+				app.root.transition = NoTransition()
+				app.root.current = root.manager.to_start()
+		Button:
+			text: "Enter Name"
+			size: "90dp", "55dp"
+			size_hint: None, None
+			pos_hint:{"center_x": 0.25, "center_y": 0.2}
+			background_normal: ''
+			background_down: ''
+			background_color: [36.0/255, 110.0/255, 208.0/255, 1] if self.state == "down" else [40.0/255, 130.0/255, 247.0/255, 1]
+			on_release: root.manager.enter_player_name()
+
+<ScorePopup>:
+	n: name
+	b: btn
+	size_hint: 1, 0.3
+	title: "Enter Score"
+	BoxLayout:
+		orientation: 'vertical'
+		TextInput:
+			id: name
+			multiline: False
+			on_text_validate: root.dismiss()
+		Button:
+			id: btn
+			text: "Enter"
+			on_release: root.dismiss()
+
+<ErrorPopup>:
+	ok_btn: ok_btn
+	size_hint: 0.4,0.4
+	title: "ERROR"
+	BoxLayout:
+		orientation: 'vertical'
+		Label:
+			text: "You already entered a name."
+		Button:
+			id: ok_btn
+			text: "OK"
+			on_release: root.dismiss()
+
+
+<ScoreScreen>:
+	category: category
+	inner_box: inner_box
+	score_label1_name: score_label1_name
+	score_label1_score: score_label1_score
+	score_label2_name: score_label2_name
+	score_label2_score: score_label2_score
+	score_label3_name: score_label3_name
+	score_label3_score: score_label3_score
+	score_label4_name: score_label4_name
+	score_label4_score: score_label4_score
+	score_label5_name: score_label5_name
+	score_label5_score: score_label5_score
+	BoxLayout:
+		orientation: 'vertical'
+		BoxLayout:
+			size_hint_y: 0.08
+			ScoreOptionButton:
+				text:'+'
+				on_release: root.write_addition_scores()
+			ScoreOptionButton:
+				text: "-"
+				on_release: root.write_substraction_scores()
+			ScoreOptionButton:
+				text:"x"
+				on_release: root.write_multiplication_labels()
+		FloatLayout:
+			pos_hint: {"center_y": 0.9}
+			ScoresLabel:
+				id: category
+				text:"High Scores - Addition"
+				pos_hint: {"center_y": 0.9}
+			GridLayout:
+				id: inner_box
+				size_hint: 0.6, 0.6
+				cols: 2
+				#col_force_default: True
+				#col_default_width: 75
+				#padding: [,0,0,0]
+				pos_hint: {"center_x": 0.5, "center_y": 0.525}
+				ScoresLabel:
+					id: score_label1_name
+					text: ""
+				ScoresLabel:
+					id: score_label1_score
+					text: ""
+				ScoresLabel:
+					id: score_label2_name
+					text: ""
+				ScoresLabel:
+					id: score_label2_score
+					text: ""
+				ScoresLabel:
+					id: score_label3_name
+					text: ""
+				ScoresLabel:
+					id: score_label3_score
+					text: ""
+				ScoresLabel:
+					id: score_label4_name
+					text: ""
+				ScoresLabel:
+					id: score_label4_score
+					text: ""
+				ScoresLabel:
+					id: score_label5_name
+					text: ""
+				ScoresLabel:
+					id: score_label5_score
+					text: ""
+			ScoreOptionButton:
+				text: "Home"
+				background_normal: ""
+				background_down: ""
+				background_color: [39.0/255, 232.0/255, 52.0/255, 1] if self.state == "down" else [71.0/255, 255/255, 89.0/255, 1]
+				font_name: "fonts/Bitter_Regular.otf"
+				width: "90dp"
+				height: "55dp"
+				size_hint: None, None
+				pos_hint:{"center_x": 0.5, "center_y": 0.1}
+				on_release: app.root.current = "start"
+
+
+<ScoreOptionButton@Button>:
+	font_size: "20sp"
+	background_normal: ''
+	background_color: 36.0/255, 110.0/255, 208.0/255, 1
+
+<ScoresLabel@Label>:
+	color: 0,0,0,1
+	font_size: "17sp"
+	pos_hint:{"center_x": 0.5}
+	size_hint_y: 1.0/8
