@@ -3,6 +3,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import NumericProperty, StringProperty,ObjectProperty
 from kivy.uix.popup import Popup
+from kivy.storage.jsonstore import JsonStore
 from random import randint
 
 final_score = 0
@@ -239,15 +240,21 @@ class ScoreScreen(Screen):
 	subst = []
 	mult = []
 	file = "scores.txt"
+	scores_store = JsonStore("scores.json")
 
 	def read_scores(self):
-		with open(self.file,"a+") as read_scores:
+		if self.scores_store.exists("scores"):
+			line = self.scores_store.get("scores")['hscores']
+			self.scores = line
+		else:
+			self.scores = []
+		"""with open(self.file,"a+") as read_scores:
 			line = read_scores.readline()
 			if "[" in line:
 				self.scores = eval(line)
 			else:
 				print "n"
-				self.scores = []
+				self.scores = []"""
 
 	def append_score(self, mode, name, score):
 		self.read_scores()
@@ -313,11 +320,13 @@ class ScoreScreen(Screen):
 		self.scores[beg:end] = sect
 
 	def write_scores(self):
-		with open(self.file, "w+") as write_scores:
+		self.scores_store["scores"] = {"hscores": self.scores}
+		"""with open(self.file, "w+") as write_scores:
 			write_scores.write(str(self.scores))
-		self.scores = []
+		self.scores = []"""
 
 	def write_addition_scores(self):
+		print "Write"
 		self.read_scores()
 		labels = []
 		pass_adding = False
@@ -342,7 +351,7 @@ class ScoreScreen(Screen):
 					labels.append([0, "N/A"])
 			index += 1
 			count += 1
-		print "Labels: " + str(labels)
+
 		self.score_label1_name.text = "1. %-7s" %(labels[0][1])
 		self.score_label1_score.text = str(labels[0][0])
 		self.score_label2_name.text = "2. %-5s" %(labels[1][1])
@@ -467,12 +476,12 @@ class MathRoot(ScreenManager):
 			return op
 
 	def enter_player_name(self):
-		if self.submissions < 1:
-			popup = ScorePopup(on_dismiss = self.write_player)
-			popup.open()
-		else:
-			error_popup = ErrorPopup()
-			error_popup.open()
+		#if self.submissions < 1:
+		popup = ScorePopup(on_dismiss = self.write_player)
+		popup.open()
+		#else:
+		#	error_popup = ErrorPopup()
+		#	error_popup.open()
 
 		self.submissions += 1
 
