@@ -13,35 +13,35 @@ MathRoot:
 	StartScreen:
 		id:  start_screen
 		name: "start"
-		manager: math_root
+		#manager: math_root
 	MenuScreen:
 		id: menu_screen
 		name: "menu"
-		manager: math_root
+		#manager: math_root
 	AddingScreen:
 		id:  adding_screen
 		name: "adding"
-		manager: math_root
+		#manager: math_root
 	SubstractingScreen:
 		id: substracting_screen
 		name: "substracting"
-		manager: math_root
+		#manager: math_root
 	MultiplyingScreen:
 		id: multiplying_screen
 		name: "multiplying"
-		manager: math_root
+		#manager: math_root
 	IncorrectScreen:
 		id:  incorrect_screen
 		name: "incorrect"
-		manager: math_root
+		#manager: math_root
 	ScoreScreen:
 		id: score_screen
 		name: "score"
-		manager: math_root
+		#manager: math_root
 	FinalScreen:
 		id: final_screen
 		name: "final"
-		manager: math_root
+		#manager: math_root
 
 
 <MathRoot>:
@@ -108,7 +108,7 @@ MathRoot:
 					pos: self.pos
 			text: "Test your IQ!"
 			font_size: "30sp"
-			size_hint_y: 0.20
+			size_hint_y: 0.125
 		FloatLayout:
 			MenuOptionButton:
 				text: "+"
@@ -385,6 +385,7 @@ MathRoot:
 <ScorePopup>:
 	n: name
 	b: btn
+	auto_dismiss: False
 	size_hint: 1, 0.3
 	title: "Enter Score"
 	BoxLayout:
@@ -392,15 +393,16 @@ MathRoot:
 		TextInput:
 			id: name
 			multiline: False
-			on_text_validate: root.dismiss()
+			on_text_validate: if len(self.text) > 0: root.dismiss()
 		Button:
 			id: btn
 			text: "Enter"
-			on_release: root.dismiss()
+			on_release: if len(name.text) > 0: root.dismiss()
 
 <ErrorPopup>:
 	ok_btn: ok_btn
-	size_hint: 1,0.4
+	size_hint: 1, 0.3
+	auto_dismiss: False
 	title: "ERROR"
 	BoxLayout:
 		orientation: 'vertical'
