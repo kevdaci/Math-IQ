@@ -6,7 +6,6 @@ from kivy.uix.popup import Popup
 from kivy.storage.jsonstore import JsonStore
 from random import randint
 
-final_score = 0
 
 class StartScreen(Screen):
 	pass
@@ -476,17 +475,18 @@ class MathRoot(ScreenManager):
 			return op
 
 	def enter_player_name(self):
-		#if self.submissions < 1:
-		popup = ScorePopup(on_dismiss = self.write_player)
-		popup.open()
-		#else:
-		#	error_popup = ErrorPopup()
-		#	error_popup.open()
+		if self.submissions < 1:
+			popup = ScorePopup(on_dismiss = self.write_player)
+			popup.open()
+		else:
+			error_popup = ErrorPopup()
+			error_popup.open()
 
 		self.submissions += 1
 
 	def to_start(self):
 		self.submissions = 0
+		self.player_name = ""
 		return "start"
 
 	def get_player_name(self, popup):
@@ -501,7 +501,14 @@ class MathRoot(ScreenManager):
 		return "score"
 
 class MathIQApp(App):
-	pass
+
+	def on_pause(self):
+		return False
+
+	def open_settings(self):
+                pass
+
+	
 
 if __name__ == '__main__':
 	MathIQApp().run()
