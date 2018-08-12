@@ -1,2 +1,5 @@
 #Ignore photos
 ICON/*
+
+#Ignore scores.json file
+*.json
