@@ -8,7 +8,7 @@ This app was created by using Kivy, a python framework cross-platform applicatio
 ## Demo
 
 ### Gameplay
-[Gameplay](demo/demo1.gif)
+![Gameplay](demo/demo1.gif)
 
 ### Entering score and viewing high score list
-[High Scores](demo/demo2.gif)
+![High Scores](demo/demo2.gif)
