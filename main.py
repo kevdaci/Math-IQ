@@ -1,7 +1,7 @@
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import NumericProperty, StringProperty,ObjectProperty
+from kivy.properties import NumericProperty, StringProperty, ObjectProperty
 from kivy.uix.popup import Popup
 from kivy.storage.jsonstore import JsonStore
 from random import randint
@@ -17,6 +17,9 @@ class AddingScreen(Screen):
     num1 = randint(1,50)
     num2 = randint(1,50)
     score = 0
+
+    def __init__(self, **kwargs):
+    	super(AddingScreen, self).__init__(**kwargs)
 
     def first_label(self):
     	if self.num1 < 10 and self.num2 < 10:
@@ -247,13 +250,6 @@ class ScoreScreen(Screen):
 			self.scores = line
 		else:
 			self.scores = []
-		"""with open(self.file,"a+") as read_scores:
-			line = read_scores.readline()
-			if "[" in line:
-				self.scores = eval(line)
-			else:
-				print "n"
-				self.scores = []"""
 
 	def append_score(self, mode, name, score):
 		self.read_scores()
@@ -280,6 +276,7 @@ class ScoreScreen(Screen):
 				index += 1
 				end = index
 			self.sort_section(self.add, beginning, end)
+
 		if mode == "substracting":
 			index = self.scores.index(mode) + 1
 			while index < len(self.scores):
@@ -307,10 +304,8 @@ class ScoreScreen(Screen):
 		self.add = []
 		self.subst = []
 		self.mult = []
-		print self.scores
 		self.write_scores()
 
-	#['adding', [1, 'bob'], [0,'ko'], 'substracting', [2,'kevin'], [32, 'hey']]
 	def sort_section(self, sect, beg, end):
 		sect.sort()
 		sect = sect[::-1]
@@ -320,18 +315,14 @@ class ScoreScreen(Screen):
 
 	def write_scores(self):
 		self.scores_store["scores"] = {"hscores": self.scores}
-		"""with open(self.file, "w+") as write_scores:
-			write_scores.write(str(self.scores))
-		self.scores = []"""
 
 	def write_addition_scores(self):
-		print "Write"
 		self.read_scores()
 		labels = []
 		pass_adding = False
 		count  = 1
-		print self.scores
 		self.category.text = "High Scores - Addition"
+
 		try:
 			index = self.scores.index("adding") + 1
 		except:
@@ -367,13 +358,14 @@ class ScoreScreen(Screen):
 		labels = []
 		pass_substracting = False
 		count  = 1
-		print self.scores
 		self.category.text = "High Scores - Substraction"
+
 		try:
 			index = self.scores.index("substracting") + 1
 		except:
 			self.empty_score_labels(labels)
 			count, index = 100, 100
+
 		while index < len(self.scores) or count < 6:
 			try:
 				if (self.scores[index] == "adding" or self.scores[index] == "multiplying") or pass_substracting:
@@ -386,7 +378,7 @@ class ScoreScreen(Screen):
 					labels.append([0, "N/A"])
 			index += 1
 			count += 1
-		print "Labels: " + str(labels)
+
 		self.score_label1_name.text = "1. %-7s" %(labels[0][1])
 		self.score_label1_score.text = str(labels[0][0])
 		self.score_label2_name.text = "2. %-5s" %(labels[1][1])
@@ -403,7 +395,6 @@ class ScoreScreen(Screen):
 		labels = []
 		pass_multiplying = False
 		count  = 1
-		print self.scores
 		self.category.text = "High Scores - Multiplication"
 		try:
 			index = self.scores.index("multiplying") + 1
@@ -422,7 +413,6 @@ class ScoreScreen(Screen):
 					labels.append([0, "N/A"])
 			index += 1
 			count += 1
-		print "Labels: " + str(labels)
 		self.score_label1_name.text = "1. %-7s" %(labels[0][1])
 		self.score_label1_score.text = str(labels[0][0])
 		self.score_label2_name.text = "2. %-5s" %(labels[1][1])
@@ -506,9 +496,7 @@ class MathIQApp(App):
 		return False
 
 	def open_settings(self):
-                pass
-
-	
+		pass
 
 if __name__ == '__main__':
 	MathIQApp().run()
