@@ -3,3 +3,6 @@ ICON/*
 
 #Ignore scores.json file
 *.json
+
+#Ignore virtual environment folder
+myenv/

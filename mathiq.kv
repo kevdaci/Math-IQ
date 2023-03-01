@@ -74,7 +74,7 @@ MathRoot:
 			text: "Scores"
 			size: "90dp", "50dp"
 			pos_hint: {"center_x": 0.5, "center_y": 0.30}
-			on_press: print self.background_color
+			on_press: print(self.background_color)
 			on_release: app.root.current = root.manager.to_high_scores()
 
 <StartButton@Button>:
